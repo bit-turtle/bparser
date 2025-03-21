@@ -17,11 +17,22 @@ namespace bparser {
 	int node::size() {
 		return subnodes.size();
 	}
+	bool node::end() {
+		if (subnodes.size() == 0) return true;
+		return false;
+	}
 	node& node::at(int index) {
 		return *subnodes.at(index);
 	}
 	node& node::operator[](int index) {
 		return *subnodes.at(index);
+	}
+	node& node::last() {
+		return *subnodes.at(subnodes.size()-1);
+	}
+	node& node::last(int depth) {
+		if (depth == 0) return *this;
+		return subnodes.at(subnodes.size()-1)->last(depth-1);
 	}
 	node& node::emplace(std::string subval) {
 		node* subnode = new node(subval);
@@ -37,7 +48,7 @@ namespace bparser {
 		subnodes.erase(subnodes.begin() + index);
 	}
 	void node::erase(int startindex, int endindex) {
-		for (std::vector<node*>::iterator it = subnodes.begin() + startindex; it != subnodes.begin() + endindex; it++) {
+		for (std::vector<node*>::iterator it = subnodes.begin() + startindex; it != subnodes.begin() + endindex + 1; it++) {
 			delete *it;
 			subnodes.erase(it);
 		}
@@ -48,14 +59,20 @@ namespace bparser {
 		}
 		subnodes.clear();
 	}
-	void node::display(int depth, std::string indent, std::string prefix) {
+	void node::display(std::string indent, std::string prefix) {
+		std::cout << prefix << value << std::endl;
+		for (node* node : subnodes) {
+			node->display(indent, prefix, 1);
+		}
+	}
+	void node::display(std::string indent, std::string prefix, int depth) {
 		// indentation
 		for (int i = 0; i < depth; i++) {
 			std::cout << indent;
 		}
 		std::cout << prefix << value << std::endl;
 		for (node* node : subnodes) {
-			node->display(depth + 1, indent, prefix);
+			node->display(indent, prefix, depth+1);
 		}
 	}
 

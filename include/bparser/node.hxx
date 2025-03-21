@@ -22,14 +22,20 @@ namespace bparser {
 
 		// Functions
 		int size();
+		bool end();
 		node& at(int index);
 		node& operator[](int index);
+		node& last();
+		node& last(int depth);
 		node& emplace(std::string subval);
 		node& push(node* subnode);
 		void erase(int index);
 		void erase(int startindex, int endindex);
 		void clear();
-		void display(int depth, std::string indent, std::string prefix);
+
+		// Display tree in stdout
+		void display(std::string indent, std::string prefix);
+		void display(std::string indent, std::string prefix, int depth);
 	};
 
 };
