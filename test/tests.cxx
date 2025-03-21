@@ -4,6 +4,7 @@
 #include <string>
 
 #include "bparser_node.hxx"
+#include "bparser_csv.hxx"
 
 // Run tests
 int test(bool result, std::string name) {
@@ -17,7 +18,6 @@ int test(bool result, std::string name) {
 	}
 }
 int main() {
-	std::cout << "bparser tests" << std::endl;
 	int passed = 0;
 	int total = 0;
 
@@ -25,7 +25,11 @@ int main() {
 	passed += test(bparser_node(), "bparser::node");
 	total += 1;
 
-	std::cout << "test results: " << passed << " of " << total << " tests passed" << std::endl;
+	// bparser::csv
+	passed += test(bparser_csv(), "bparser::csv");
+	total += 1;
+
+	std::cout << "bparser-test results: " << passed << " of " << total << " tests passed" << std::endl;
 
 	if (passed == total) {
 		std::cout << "Success!" << std::endl;

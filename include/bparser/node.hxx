@@ -1,4 +1,7 @@
-// bparser node definition
+// bparser::node definition
+
+#ifndef BPARSER_NODE
+#define BPARSER_NODE
 
 #include <string>
 #include <vector>
@@ -19,12 +22,16 @@ namespace bparser {
 
 		// Functions
 		int size();
-		node* operator[](int index);
-		void emplace(std::string subval);
-		void push(node* subnode);
+		node& at(int index);
+		node& operator[](int index);
+		node& emplace(std::string subval);
+		node& push(node* subnode);
 		void erase(int index);
 		void erase(int startindex, int endindex);
 		void clear();
+		void display(int depth, std::string indent, std::string prefix);
 	};
 
 };
+
+#endif
