@@ -1,3 +1,7 @@
+if (NOT DEFINED BPARSER_TESTS)
+	option(BPARSER_TESTS "Default Tests" ON)
+endif()
+
 if (BPARSER_TESTS)
 	add_executable( bparser-tests tests.cxx )
 	target_link_libraries( bparser-tests bparser )
