@@ -6,6 +6,7 @@
 #include "bparser_node.hxx"
 #include "bparser_csv.hxx"
 #include "bparser_sexpr.hxx"
+#include "bparser_tsv.hxx"
 
 // Run tests
 int test(bool result, std::string name) {
@@ -32,6 +33,10 @@ int main() {
 
 	// bparser::sexpr
 	passed += test(bparser_sexpr(), "bparser::sexpr");
+	total += 1;
+	
+	// bparser::tsv
+	passed += test(bparser_tsv(), "bparser::tsv");
 	total += 1;
 	
 	std::cout << "bparser-test results: " << passed << " of " << total << " tests passed" << std::endl;

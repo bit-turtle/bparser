@@ -17,6 +17,9 @@ Encode Function Signature: `void encode(bparser::node& node, std::istream& file)
   - First item in the S-Expression is the value
   - Values following the first are in subnodes
   - The entire file is treated as an S-Expression
+* TSV `bparser::tsv` (Each subnode from the root is a row)
+  - Root node value: "tsv"
+  - Root subnode values: "row"
 ### Planned encoding support
 I plan to support many tree style text based encodings (With all values being treated as strings) such as:
 * UCL (Universal Configuration Language) *Seems very compatible with the structure*

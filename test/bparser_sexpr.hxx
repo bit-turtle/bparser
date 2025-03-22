@@ -14,6 +14,12 @@ bool bparser_sexpr() {
 
 	bparser::node& root = bparser::sexpr::parse(sexpr_stream);
 
+	std::ostringstream sexpr_encoded;
+	sexpr_encoded.str(std::string());
+	sexpr_encoded.clear();
+
+	bparser::sexpr::encode(root, sexpr_encoded);
+
 	// Checks
 	if (root.size() != 1) return false;
 	if (root[0].size() != 1) return false;
@@ -21,6 +27,7 @@ bool bparser_sexpr() {
 	if (root[0][0].size() != 1) return false;
 	if (root[0][0].value != "node 2") return false;
 	if (root[0][0][0].value != "thing") return false;
+	if (sexpr_encoded.str() != sexpr_file) return false;
 
 	// test passed
 	return true;
