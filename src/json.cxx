@@ -49,7 +49,7 @@ namespace bparser {
 			// Out of quotes
 			
 			// Value termination
-			if (c == ':' || c == ' ' || c == ',' || c == '{' || c == '}' || c == '[' || c == ']') {
+			if (c == ':' || c == ' ' || c == '\t' || c == '\n' || c == ',' || c == '{' || c == '}' || c == '[' || c == ']') {
 				if (buffer.str().length() > 0) {
 					root.last(value ? 1 : 0).emplace(buffer.str());
 					buffer.str(std::string());

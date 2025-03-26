@@ -26,6 +26,13 @@ bool bparser_node() {
 	if (tree.last().size() != 1) return false;
 	if (tree.last(2).value != "thing") return false;
 	if (tree.last(2).end() != true) return false;
+	try {
+		if (tree.find("node 2").size() != 1) return false;
+		if (tree.find("node 2")[0].value != "thing") return false;
+	}
+	catch (...) {
+		return false;
+	}
 
 	// test passed
 	return true;

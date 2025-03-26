@@ -2,6 +2,7 @@
 
 #include <bparser/node.hxx>
 #include <iostream>
+#include <stdexcept>
 
 namespace bparser {
 
@@ -25,7 +26,14 @@ namespace bparser {
 		return *subnodes.at(index);
 	}
 	node& node::operator[](int index) {
-		return *subnodes.at(index);
+		return node::at(index);
+	}
+	node& node::find(std::string key) {
+		for (node* node : subnodes) if (node->value == key) return *node;
+		throw std::runtime_error("key not found in node");
+	}
+	node& node::operator[](std::string key) {
+		return node::find(key);
 	}
 	node& node::last() {
 		return *subnodes.at(subnodes.size()-1);

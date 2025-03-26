@@ -25,6 +25,8 @@ namespace bparser {
 		bool end();
 		node& at(int index);
 		node& operator[](int index);
+		node& find(std::string key);
+		node& operator[](std::string key);
 		node& last();
 		node& last(int depth);
 		node& emplace(std::string subval);
