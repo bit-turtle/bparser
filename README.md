@@ -20,7 +20,16 @@ Encode Function Signature: `void encode(bparser::node& node, std::istream& file)
 * TSV `bparser::tsv` (Each subnode from the root is a row)
   - Root node value: "tsv"
   - Root subnode values: "row"
+* JSON `bparser::json` (First subnode is the main object/array)
+  - Root node value: "json"
+  - Default value: "" (Empty String)
+  - The entire file is treated as the contents of an array
+  - When encoding, strings will be converted to boolean, null, or number if possible
+    - "true" -> true
+    - "false" -> false
+    - "null" -> null
+    - "0.5" -> 0.5
+    - "" -> null
 ### Planned encoding support
 I plan to support many tree style text based encodings (With all values being treated as strings) such as:
 * UCL (Universal Configuration Language) *Seems very compatible with the structure*
-* JSON *Items with no name would have an empty value*
