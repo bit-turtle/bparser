@@ -1,5 +1,5 @@
 if (NOT DEFINED BPARSER_TESTS)
-	option(BPARSER_TESTS "Default Tests" ON)
+	option(BPARSER_TESTS "Default Tests" ${PROJECT_IS_TOP_LEVEL})
 endif()
 
 if (BPARSER_TESTS)

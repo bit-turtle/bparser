@@ -8,7 +8,15 @@
 #include <sstream>
 
 bool bparser_json() {
-	std::string json_file = "{\"number\":-0.5e-5,\"string\":\"thing\",\"bool\":true,\"array\":[1,2,3],\"object\":{\"a\":1,\"b\":2,\"c\":3}}";
+	std::string json_file = "{"
+				"\"number\":-0.5e-5,"
+				"\"string\":\"thing\","
+				"\"bool\":true,"
+				"\"array\":[1,2,3],"
+				"\"object\":{\"a\":1,\"b\":2,\"c\":3},"
+				"\"empty\":{},"
+				"\"chain\":{\"link\":\"fence\"}"
+				"}";
 
 	// JSON Decoded
 
@@ -26,7 +34,7 @@ bool bparser_json() {
 
 	// Checks
 	if (root.size() != 1) return false;
-	if (root[0].size() != 5) return false;
+	if (root[0].size() != 7) return false;
 	if (root[0][0].value != "number") return false;
 	if (root[0][0].size() != 1) return false;
 	if (root[0][0][0].value != "-0.5e-5") return false;
@@ -52,6 +60,14 @@ bool bparser_json() {
 	if (root[0][4][2].value != "c") return false;
 	if (root[0][4][2].size() != 1) return false;
 	if (root[0][4][2][0].value != "3") return false;
+	if (root[0][5].value != "empty") return false;
+	if (root[0][5].size() != 0) return false;
+	if (root[0][6].value != "chain") return false;
+	if (root[0][6].size() != 1) return false;
+	if (root[0][6][0].value != "link") return false;
+	if (root[0][6][0].size() != 1) return false;
+	if (root[0][6][0][0].value != "fence") return false;
+	if (root[0][6][0][0].size() != 0) return false;
 	if (json_encoded.str() != json_file) return false;
 
 	// test passed

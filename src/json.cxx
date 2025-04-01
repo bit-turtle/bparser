@@ -184,13 +184,21 @@ namespace bparser {
 			if (quoted) file << "\"" << node.value << "\"";
 			else file << node.value;
 			if (node.size() > 0) file.put(':');
+			else if (in_object) file << ":{}";
 		}
 		// Empty value handlers
-		else if (in_object && node.size() == 0) {
-			file << "\"\":null";
+		else if (node.size() == 0) {
+			if (in_object)
+				file << "\"\":null";
+			else file << "null";
 		}
-		else if (node.size() == 0) file << "null";
-		if (node.size() == 1) json_encode(node.last(), file, false);
+		if (node.size() == 1) {
+			bool end = node[0].size() == 0 ? true : false;
+			bool object = node[0].value != "" ? true : false;
+			if (!end) file.put(object ? '{' : '[');
+			json_encode(node.last(), file, false);
+			if (!end) file.put(object ? '}' : ']');
+		}
 		else if (node.size() > 1) {
 			bool object = false;
 			for (int i = 0; i < node.size(); i++) if (node[i].value != "" && node[i].size() > 0) object = true;
