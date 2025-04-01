@@ -25,6 +25,7 @@ namespace bparser {
 		bool end();
 		node& at(int index);
 		node& operator[](int index);
+		bool exists(std::string key);
 		node& find(std::string key);
 		node& operator[](std::string key);
 		node& last();

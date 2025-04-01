@@ -28,6 +28,10 @@ namespace bparser {
 	node& node::operator[](int index) {
 		return node::at(index);
 	}
+	bool node::exists(std::string key) {
+		for (node* node : subnodes) if (node->value == key) return true;
+		return false;
+	}
 	node& node::find(std::string key) {
 		for (node* node : subnodes) if (node->value == key) return *node;
 		throw std::runtime_error("key not found in node");
