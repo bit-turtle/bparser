@@ -64,9 +64,13 @@ namespace bparser {
 				if (c == '[' || c == '{') {
 					node* subnode = &json_parse(file, false);
 					if (value) {
-						subnode->value = root.last().value;
-						root.erase(root.size()-1);
-						root.push(subnode);
+						if (subnode->size() == 1 && subnode->at(0).size() == 0)
+							root[root.size()-1].push(subnode);
+						else {
+							subnode->value = root[root.size()-1].value;
+							root.erase(root.size()-1);
+							root.push(subnode);
+						}
 						value = false;
 					}
 					else {
