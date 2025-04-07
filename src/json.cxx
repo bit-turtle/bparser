@@ -193,8 +193,8 @@ namespace bparser {
 		// Empty value handlers
 		else if (node.size() == 0) {
 			if (in_object)
-				file << "\"\":null";
-			else file << "null";
+				file << "\"\":[]";
+			else file << "[]";
 		}
 		if (node.size() == 1) {
 			bool end = node[0].size() == 0 ? true : false;
