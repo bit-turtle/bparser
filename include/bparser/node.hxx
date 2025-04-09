@@ -15,6 +15,8 @@ namespace bparser {
 	public:
 		// Node Value
 		std::string value;
+		// String flag (Force node value to be encoded as a string)
+		bool string = false;
 
 		// Constructor and Destructor
 		node(std::string val);

@@ -9,15 +9,16 @@
 
 bool bparser_json() {
 	std::string json_file = "{"
-				"\"number\":-0.5e-5,"
-				"\"string\":\"thing\","
-				"\"bool\":true,"
-				"\"array\":[1,2,3],"
-				"\"object\":{\"a\":1,\"b\":2,\"c\":3},"
-				"\"empty\":{},"
-				"\"chain\":{\"link\":\"fence\"},"
-				"\"small\":[\"thing\"],"
-				"\"thing\":[[]]"
+				"\"number\":-0.5e-5,"	// Numbers with decimals and exponents
+				"\"string\":\"thing\","	// Strings
+				"\"bool\":true,"	// Booleans
+				"\"array\":[1,2,3],"	// Arrays
+				"\"object\":{\"a\":1,\"b\":2,\"c\":3},"	// Objects
+				"\"empty\":{},"	// Empty Object
+				"\"chain\":{\"link\":\"fence\"},"	// Object with only one key
+				"\"small\":[\"thing\"],"	// Array with only one item
+				"\"thing\":[[]],"	// Array with and empty array
+				"\"quoted\":\"49\""	// Quoted number
 				"}";
 
 	// JSON Decoded
@@ -36,7 +37,7 @@ bool bparser_json() {
 
 	// Checks
 	if (root.size() != 1) return false;
-	if (root[0].size() != 9) return false;
+	if (root[0].size() != 10) return false;
 	if (root[0][0].value != "number") return false;
 	if (root[0][0].size() != 1) return false;
 	if (root[0][0][0].value != "-0.5e-5") return false;
@@ -81,6 +82,10 @@ bool bparser_json() {
 	if (root[0][8][0].size() != 1) return false;
 	if (root[0][8][0][0].value != "") return false;
 	if (root[0][8][0][0].size() != 0) return false;
+	if (root[0][9].value != "quoted") return false;
+	if (root[0][9].size() != 1) return false;
+	if (root[0][9][0].value != "49") return false;
+	if (root[0][9][0].string != true) return false;
 	if (json_encoded.str() != json_file) return false;
 
 	// test passed

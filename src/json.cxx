@@ -14,6 +14,7 @@ namespace bparser {
 		bool quoted = false;
 		bool escape = false;
 		bool value = false;
+		bool string = false;
 
 		std::ostringstream buffer;
 		buffer.str(std::string());
@@ -51,7 +52,8 @@ namespace bparser {
 			// Value termination
 			if (c == ':' || c == ' ' || c == '\t' || c == '\n' || c == ',' || c == '{' || c == '}' || c == '[' || c == ']') {
 				if (buffer.str().length() > 0) {
-					root.last(value ? 1 : 0).emplace(buffer.str());
+					root.last(value ? 1 : 0).emplace(buffer.str()).string = string;
+					string = false;
 					buffer.str(std::string());
 					buffer.clear();
 					if (value) value = false;
@@ -74,7 +76,8 @@ namespace bparser {
 						value = false;
 					}
 					else {
-						root.push(subnode);
+						root.push(subnode).string = string;
+						string = false;
 					}
 				}
 				if (c == ']' || c == '}') {
@@ -84,6 +87,7 @@ namespace bparser {
 			else if (c == '"') {
 				quoted = true;
 				escape = false;
+				string = true;
 			}
 			// Otherwise just add the char
 			else buffer.put(c);
@@ -108,8 +112,10 @@ namespace bparser {
 	void json_encode(node& node, std::ostream& file, bool in_object) {
 		if (!node.value.empty()) {
 			bool quoted = true;
+			// String check
+			if (node.string) quoted = true;
 			// Null check
-			if (node.value == "null") quoted = false;
+			else if (node.value == "null") quoted = false;
 			// Boolean check
 			else if (node.value == "true") quoted = false;
 			else if (node.value == "false") quoted = false;
