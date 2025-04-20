@@ -93,7 +93,7 @@ namespace bparser {
 			bool quoted = false;
 			char c;
 			while (value.get(c)) {
-				if (c == '(' || c == ')' || c == ' ' || c == '\t' || c == '\n' || c == '"') {
+				if (c == '(' || c == ')' || c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '"') {
 					quoted = true;
 					if (c == '"' || c == '\\') {
 						output.put('\\');
