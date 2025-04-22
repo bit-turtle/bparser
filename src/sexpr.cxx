@@ -14,6 +14,7 @@ namespace bparser {
 		int depth = 0;
 		bool quoted = false;
 		bool escape = false;
+		bool string = false;
 		bool value = false;
 
 		std::ostringstream buffer;
@@ -53,24 +54,30 @@ namespace bparser {
 				if (!buffer.str().empty()) {
 					if (value) {
 						root.last(depth).value = buffer.str();
+						root.last(depth).string = string;
 						value = false;
 					}
-					else root.last(depth).emplace(buffer.str());
+					else root.last(depth).emplace(buffer.str()).string = string;
 					buffer.str(std::string());
 					buffer.clear();
+					string = false;
 				}
 
 				// Process parentheses
 				if (c == '(') {
-					root.last(depth).emplace(std::string());
+					root.last(depth).emplace(std::string()).string = string;
 					depth++;
 					value = true;
+					string = false;
 				}
 				else if (c == ')') {
 					depth--;
 				}
 			}
-			else if (c == '"') quoted = true;
+			else if (c == '"') {
+				quoted = true;
+				string = true;
+			}
 			else buffer.put(c);
 		}
 
@@ -93,7 +100,7 @@ namespace bparser {
 			bool quoted = false;
 			char c;
 			while (value.get(c)) {
-				if (c == '(' || c == ')' || c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '"') {
+				if (c == '(' || c == ')' || c == ' ' || c == '\t' || c == '\n' || c == '"') {
 					quoted = true;
 					if (c == '"' || c == '\\') {
 						output.put('\\');
