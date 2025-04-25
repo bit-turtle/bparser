@@ -4,6 +4,7 @@
 #define BPARSER_JSON
 
 #include <iostream>
+#include <string>
 
 #include <bparser/node.hxx>
 
@@ -16,6 +17,8 @@ namespace bparser {
 		node& parse(std::istream& file);
 
 		void encode(node& node, std::ostream& file);
+
+		std::string escape(std::string value);
 
 	}
 

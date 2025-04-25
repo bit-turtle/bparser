@@ -108,6 +108,31 @@ namespace bparser {
 		return json_parse(file, true);
 	}
 
+	std::string json::escape(std::string value) {
+		std::istringstream original(value);
+		std::ostringstream escaped;
+		char c;
+		while (original.get(c)) {
+			switch (c) {
+				case '"':
+					escaped.put('\\');
+					escaped.put('"');
+					break;
+				case '\n':
+					escaped.put('\\');
+					escaped.put('n');
+					break;
+				case '\\':
+					escaped.put('\\');
+					escaped.put('\\');
+					break;
+				default:
+					escaped.put(c);
+			}
+		}
+		return escaped.str();
+	}
+
 	// Internal function for recursion
 	void json_encode(node& node, std::ostream& file, bool in_object) {
 		if (!node.value.empty()) {
@@ -191,8 +216,8 @@ namespace bparser {
 					if (quoted) break;
 				}
 			}
-			if (quoted) file << "\"" << node.value << "\"";
-			else file << node.value;
+			if (quoted) file << "\"" << json::escape(node.value) << "\"";
+			else file << json::escape(node.value);
 			if (node.size() > 0) file.put(':');
 			else if (in_object) file << ":{}";
 		}
