@@ -50,8 +50,8 @@ namespace bparser {
 			
 			// Out of quotes
 			if (c == '(' || c == ')' || c == ' ' || c == '\t' || c == '\n') {
-				// Add buffer if not empty
-				if (!buffer.str().empty()) {
+				// Add buffer if not empty or if string
+				if (!buffer.str().empty() || string) {
 					if (value) {
 						root.last(depth).value = buffer.str();
 						root.last(depth).string = string;
@@ -93,11 +93,11 @@ namespace bparser {
 			// Open S-Expression
 			if (node[i].size() > 0) file.put('(');
 			// Parse value
+			bool quoted = node[i].value.length() == 0 ? true : false;
 			std::istringstream value;
 			value.clear();
 			value.str(node[i].value);
 			std::ostringstream output;
-			bool quoted = false;
 			char c;
 			while (value.get(c)) {
 				if (c == '(' || c == ')' || c == ' ' || c == '\t' || c == '\n' || c == '"') {

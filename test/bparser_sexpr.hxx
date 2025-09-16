@@ -8,7 +8,7 @@
 #include <sstream>
 
 bool bparser_sexpr() {
-	std::string sexpr_file = "(\"node 1\" (\"node 2\" thing))";
+	std::string sexpr_file = "(\"node 1\" (\"node 2\" \"\" thing))";
 
 	std::istringstream sexpr_stream(sexpr_file);
 
@@ -24,9 +24,10 @@ bool bparser_sexpr() {
 	if (root.size() != 1) return false;
 	if (root[0].size() != 1) return false;
 	if (root[0].value != "node 1") return false;
-	if (root[0][0].size() != 1) return false;
+	if (root[0][0].size() != 2) return false;
 	if (root[0][0].value != "node 2") return false;
-	if (root[0][0][0].value != "thing") return false;
+	if (root[0][0][0].value != "") return false;
+	if (root[0][0][1].value != "thing") return false;
 	if (sexpr_encoded.str() != sexpr_file) return false;
 
 	// test passed
