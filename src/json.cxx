@@ -15,6 +15,7 @@ namespace bparser {
 		bool escape = false;
 		bool value = false;
 		bool string = false;
+		bool token = false;
 
 		std::ostringstream buffer;
 		buffer.str(std::string());
@@ -51,12 +52,13 @@ namespace bparser {
 			
 			// Value termination
 			if (c == ':' || c == ' ' || c == '\t' || c == '\n' || c == ',' || c == '{' || c == '}' || c == '[' || c == ']') {
-				if (buffer.str().length() > 0) {
+				if (buffer.str().length() > 0 || token) {
 					root.last(value ? 1 : 0).emplace(buffer.str()).string = string;
 					string = false;
 					buffer.str(std::string());
 					buffer.clear();
 					if (value) value = false;
+					token = false;
 				}
 
 				// Await value
@@ -88,16 +90,18 @@ namespace bparser {
 				quoted = true;
 				escape = false;
 				string = true;
+				token = true;
 			}
 			// Otherwise just add the char
 			else buffer.put(c);
 
 		}
 		
-		if (buffer.str().length() > 0) {
+		if (buffer.str().length() > 0 || token) {
 			root.last(value ? 1 : 0).emplace(buffer.str());
 			buffer.str(std::string());
 			buffer.clear();
+			token = false;
 		}
 
 		return root;
@@ -135,7 +139,7 @@ namespace bparser {
 
 	// Internal function for recursion
 	void json_encode(node& node, std::ostream& file, bool in_object) {
-		if (!node.value.empty()) {
+		if (node.string || !node.value.empty()) {
 			bool quoted = true;
 			// String check
 			if (node.string) quoted = true;

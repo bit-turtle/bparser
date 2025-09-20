@@ -1,4 +1,4 @@
-// bparser::sexpr tests
+// bparser::json tests
 
 #include <bparser/node.hxx>
 #include <bparser/json.hxx>
@@ -18,7 +18,8 @@ bool bparser_json() {
 				"\"chain\":{\"link\":\"fence\"},"	// Object with only one key
 				"\"small\":[\"thing\"],"	// Array with only one item
 				"\"thing\":[[]],"	// Array with and empty array
-				"\"quoted\":\"\\\"49\\\"\""	// Quoted number
+				"\"quoted\":\"\\\"49\\\"\","	// Quoted number
+				"\"just\":[\"\"]" // Just an array with an empty string
 				"}";
 
 	// JSON Decoded
@@ -37,7 +38,7 @@ bool bparser_json() {
 
 	// Checks
 	if (root.size() != 1) return false;
-	if (root[0].size() != 10) return false;
+	if (root[0].size() != 11) return false;
 	if (root[0][0].value != "number") return false;
 	if (root[0][0].size() != 1) return false;
 	if (root[0][0][0].value != "-0.5e-5") return false;
@@ -86,6 +87,14 @@ bool bparser_json() {
 	if (root[0][9].size() != 1) return false;
 	if (root[0][9][0].value != "\"49\"") return false;
 	if (root[0][9][0].string != true) return false;
+	if (root[0][10].size() != 1) return false;
+	if (root[0][10].value != "just") return false;
+	if (root[0][10][0].size() != 1) return false;
+	if (root[0][10][0].value != "") return false;
+	if (root[0][10][0].string != false) return false;
+	if (root[0][10][0][0].size() != 0) return false;
+	if (root[0][10][0][0].value != "") return false;
+	if (root[0][10][0][0].string != true) return false;
 	if (json_encoded.str() != json_file) return false;
 
 	// test passed
