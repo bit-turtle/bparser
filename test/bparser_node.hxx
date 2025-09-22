@@ -33,6 +33,16 @@ bool bparser_node() {
 	catch (...) {
 		return false;
 	}
+	
+	// Test Copy
+	bparser::node& copy = node.copy();
+	if (copy.value != "node 2") return false;
+	copy.value = "a copy won't affect it's source";
+	if (node.value == copy.value) return false;
+	if (copy.size() != 1) return false;
+	if (copy[0].value == "thing");
+	copy[0].value = "copied thing";
+	if (node[0].value == copy[0].value) return false;
 
 	// test passed
 	return true;

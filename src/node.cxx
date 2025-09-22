@@ -6,8 +6,9 @@
 
 namespace bparser {
 
-	node::node(std::string val) {
+	node::node(std::string val, bool str) {
 		value = val;
+		string = str;
 	}
 	node::~node() {
 		for (node* node : subnodes) {
@@ -71,6 +72,14 @@ namespace bparser {
 		}
 		subnodes.clear();
 	}
+	node& node::copy() {
+		node& copy = *(new node(value, string));
+		for (node* subnode : subnodes) {
+			copy.push(&subnode->copy());
+		}
+		return copy;
+	}
+
 	void node::display(std::string indent, std::string prefix) {
 		std::cout << prefix << value << std::endl;
 		for (node* node : subnodes) {

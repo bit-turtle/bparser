@@ -19,7 +19,7 @@ namespace bparser {
 		bool string = false;
 
 		// Constructor and Destructor
-		node(std::string val);
+		node(std::string val, bool str = false);
 		~node();
 
 		// Functions
@@ -37,6 +37,7 @@ namespace bparser {
 		void erase(int index);
 		void erase(int startindex, int endindex);
 		void clear();
+		node& copy();
 
 		// Display tree in stdout
 		void display(std::string indent, std::string prefix);
