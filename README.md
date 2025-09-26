@@ -30,6 +30,3 @@ Encode Function Signature: `void encode(bparser::node& node, std::istream& file)
     - "null" -> null
     - "0.5" -> 0.5
     - "" -> null
-### Planned encoding support
-I plan to support many tree style text based encodings (With all values being treated as strings) such as:
-* UCL (Universal Configuration Language) *Seems very compatible with the structure*
